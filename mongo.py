@@ -18,20 +18,32 @@ def main():
 
     db = c['mydb'] #Crea la base de datos / En caso de estar creada la almacena en la variable "db"
 
-    #cargarUsuario(db,'juancito','Juan','Alvarez',datetime(1995,11,7), 'juancito@gmail.com')
+    #Carga de Usuario ===============================================================================================
+    #cargarUsuario(db,'pepo','Ramon','Alvarez',datetime(1993,11,7), 'hj@gmail.com')
 
-    q = buscarUsuarioByName(db, "Patricio") #Buscar en la base de datos un documento con determinado nombre
-    print(q)
+    #Busquedas ======================================================================================================
 
-    q2 = buscarTodosByName(db, 'Juan') #Buscar en la base de datos todos los usuarios con determinado nombre
-    for us in q2:
-        print(us)
+    #Buscar en la base de datos un documento con determinado nombre
+    #q = buscarUsuarioByName(db, "Patricio")
+    #print(q)
 
-    #Para conocer la cantidad de documentos en una coleccion 
-    usersCount = db.users.find().count()
-    print('La Cantidad de Usuarios es de: ', usersCount)
+    #Buscar en la base de datos todos los usuarios con determinado nombre
+    #q2 = buscarTodosByName(db, 'Juan')
+    #for us in q2:
+    #    print(us)
 
-    imprimirPorFDN(db) #Imprimir de forma ordenada
+    #Para conocer la cantidad de documentos en una coleccion
+    #usersCount = db.users.find().count()
+    #print('La Cantidad de Usuarios es de: ', usersCount)
+
+    #Imprimir de forma ordenada
+    #imprimirPorFDN(db)
+
+    #Actualizar un dato del usuario===================================================================================
+    #print(actualizarUsuario(db, buscarUsuarioByName(db, 'Ramon'), 'nuevo@gmail.com'))
+
+    #Borrar un usuario================================================================================================
+    #borrarUsuario(db, buscarUsuarioByName(db, 'Ramon'))
 
 
 
@@ -60,9 +72,18 @@ def buscarTodosByName(db, name):
     users = db.users.find({'nombre': name})
     return users
 
+def actualizarUsuario(db, user, nuevoMail):
 
-def borrarUsuario():
-    pass
+    db.users.update_one(user, {"$set": {"email":nuevoMail}})
+    return user
+
+
+def borrarUsuario(db, usuario):
+
+    db.users.delete_one(usuario)
+    print('El usuario se ha eliminado')
+
+
 
 if __name__ == "__main__":
     main()
